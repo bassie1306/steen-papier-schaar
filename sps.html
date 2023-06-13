@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Steen, Papier en Schaar</title>
+  <link rel="stylesheet" href="sps.css">
+</head>
+
+<body>
+  <h1>Steen, Papier en Schaar</h1>
+  <div class="choices">
+    <button class="choice" onclick="playGame('Steen')"><img src="steen.jpg" alt="steen"></button>
+    <button class="choice" onclick="playGame('Papier')"><img src="papier.jpg" alt="papier"></button>
+    <button class="choice" onclick="playGame('Schaar')"><img src="schaar.png" alt="schaar"></button>
+  </div>
+  <div class="result" id="result"></div>
+  <div class="score" id="score"></div>
+  <button class="reset-button" onclick="resetGame()">Reset</button>
+
+  <script>
+    var wins = 0;
+    var ties = 0;
+    var losses = 0;
+
+    function playGame(userChoice) {
+      var choices = ['Steen', 'Papier', 'Schaar'];
+      var computerChoice = choices[Math.floor(Math.random() * choices.length)];
+
+      var result = '';
+
+      if (userChoice === computerChoice) {
+        result = "Het is Gelijk spel!";
+        result += "<img src=\"gelijk.png\" alt=\"gelijk\">";
+        ties++;
+      } else if (
+        (userChoice === 'Steen' && computerChoice === 'Schaar') ||
+        (userChoice === 'Papier' && computerChoice === 'Steen') ||
+        (userChoice === 'Schaar' && computerChoice === 'Papier')
+      ) {
+        result = "Jij hebt gewonnen!";
+        result += "<img src=\"gewonnen.png\" alt=\"gewonnen\">";
+        wins++;
+      } else {
+        result = "Jij hebt verloren!";
+        result += "<img src=\"lost.png\" alt=\"verloren\">";
+        losses++;
+      }
+     
+      document.getElementById('result').innerHTML =
+        'Jij had ' +
+        userChoice +
+        ', computer had ' +
+        computerChoice +
+        '. ' +
+        result;
+
+      updateScore();
+    }
+
+    function updateScore() {
+      document.getElementById('score').innerHTML =
+        'Wins: ' + wins + ' | Gelijk: ' + ties + ' | Verloren: ' + losses;
+    }
+
+    function resetGame() {
+      wins = 0;
+      ties = 0;
+      losses = 0;
+      document.getElementById('result').innerHTML = '';
+      updateScore();
+    }
+  </script>
+</body>
+</html>
